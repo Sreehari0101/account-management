@@ -1,4 +1,4 @@
-package com.example.accountmanagement.model;
+package com.example.account_management.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

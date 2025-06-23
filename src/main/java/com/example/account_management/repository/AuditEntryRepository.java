@@ -1,6 +1,6 @@
 package com.example.account_management.repository;
 
-import com.example.accountmanagement.model.AuditEntry;
+import com.example.account_management.model.AuditEntry;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
