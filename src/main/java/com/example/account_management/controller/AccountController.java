@@ -2,14 +2,12 @@ package com.example.account_management.controller;
 
 import com.example.account_management.dto.AccountRequest;
 import com.example.account_management.model.Account;
-import com.example.account_management.repository.AccountRepository;
+import com.example.account_management.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -17,50 +15,37 @@ import java.util.List;
 public class AccountController {
 
     @Autowired
-    private AccountRepository accountRepository;
-
+    private AccountService accountService;
 
     @PostMapping
-    public Account createAccount(@RequestBody AccountRequest request) {
-        Account account = new Account();
-        account.setAccountId(request.getAccountId());
-        account.setCustomerId(request.getCustomerId());
-        account.setAccountType(request.getAccountType());
-        account.setStatus(request.getStatus());
-        account.setBalance(request.getBalance());
-        account.setUpdatedAt(LocalDateTime.now());
-
-        return accountRepository.save(account);
+    public ResponseEntity<Account> createAccount(@RequestBody AccountRequest request) {
+        Account created = accountService.createAccount(request);
+        return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
 
-    // ✅ GET API to retrieve all account data
     @GetMapping
-    public List<Account> getAccounts() {
-        return accountRepository.findAll();
+    public ResponseEntity<List<Account>> getAllAccounts() {
+        return ResponseEntity.ok(accountService.getAllAccounts());
     }
 
     @GetMapping("/{accountId}")
     public ResponseEntity<?> getAccountById(@PathVariable String accountId) {
-        Account account = accountRepository.findById(accountId).orElse(null);
-
+        Account account = accountService.getAccountById(accountId);
         if (account == null) {
-            return new ResponseEntity<>("Account with ID " + accountId + " not found.", HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Account with ID " + accountId + " not found.");
         }
-
         return ResponseEntity.ok(account);
     }
 
-
-
     @DeleteMapping("/{accountId}")
-    public String deleteAccount(@PathVariable String accountId) {
-        if (accountRepository.existsById(accountId)) {
-            accountRepository.deleteById(accountId);
-            return "Account with ID " + accountId + " deleted successfully.";
+    public ResponseEntity<String> deleteAccount(@PathVariable String accountId) {
+        boolean deleted = accountService.deleteAccount(accountId);
+        if (deleted) {
+            return ResponseEntity.ok("Account with ID " + accountId + " deleted successfully.");
         } else {
-            return "Account with ID " + accountId + " not found.";
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Account with ID " + accountId + " not found.");
         }
     }
-
-
 }

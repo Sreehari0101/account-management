@@ -9,7 +9,7 @@ public class Branch {
     @Id
     private String branchId;   // e.g., BR001
 
-    private String branchName; // e.g., "Kottayam Main"
+    private String branchName; //
 
     // Constructors
     public Branch() {}
