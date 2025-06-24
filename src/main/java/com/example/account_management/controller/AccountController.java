@@ -4,6 +4,8 @@ import com.example.account_management.dto.AccountRequest;
 import com.example.account_management.model.Account;
 import com.example.account_management.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -31,18 +33,25 @@ public class AccountController {
         return accountRepository.save(account);
     }
 
-<<<<<<< Updated upstream
-
-
     // ✅ GET API to retrieve all account data
     @GetMapping
     public List<Account> getAccounts() {
         return accountRepository.findAll();
     }
 
+    @GetMapping("/{accountId}")
+    public ResponseEntity<?> getAccountById(@PathVariable String accountId) {
+        Account account = accountRepository.findById(accountId).orElse(null);
+
+        if (account == null) {
+            return new ResponseEntity<>("Account with ID " + accountId + " not found.", HttpStatus.NOT_FOUND);
+        }
+
+        return ResponseEntity.ok(account);
+    }
 
 
-=======
+
     @DeleteMapping("/{accountId}")
     public String deleteAccount(@PathVariable String accountId) {
         if (accountRepository.existsById(accountId)) {
@@ -53,5 +62,5 @@ public class AccountController {
         }
     }
 
->>>>>>> Stashed changes
+
 }
