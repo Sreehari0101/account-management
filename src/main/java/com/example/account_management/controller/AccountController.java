@@ -6,7 +6,9 @@ import com.example.account_management.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/accounts")
@@ -14,6 +16,7 @@ public class AccountController {
 
     @Autowired
     private AccountRepository accountRepository;
+
 
     @PostMapping
     public Account createAccount(@RequestBody AccountRequest request) {
@@ -27,4 +30,15 @@ public class AccountController {
 
         return accountRepository.save(account);
     }
+
+
+
+    // ✅ GET API to retrieve all account data
+    @GetMapping
+    public List<Account> getAccounts() {
+        return accountRepository.findAll();
+    }
+
+
+
 }
