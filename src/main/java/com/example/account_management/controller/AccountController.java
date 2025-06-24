@@ -1,30 +1,30 @@
 package com.example.account_management.controller;
 
+import com.example.account_management.dto.AccountRequest;
 import com.example.account_management.model.Account;
 import com.example.account_management.repository.AccountRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @RestController
-@RequestMapping("/accounts")
+@RequestMapping("/api/accounts")
 public class AccountController {
 
-    private final AccountRepository accountRepository;
+    @Autowired
+    private AccountRepository accountRepository;
 
-    public AccountController(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
-    }
-
-    // ✅ GET all accounts
-    @GetMapping
-    public List<Account> getAllAccounts() {
-        return accountRepository.findAll();
-    }
-
-    // ✅ POST new account → this will create DB/collection on first insert
     @PostMapping
-    public Account createAccount(@RequestBody Account account) {
+    public Account createAccount(@RequestBody AccountRequest request) {
+        Account account = new Account();
+        account.setAccountId(request.getAccountId());
+        account.setCustomerId(request.getCustomerId());
+        account.setAccountType(request.getAccountType());
+        account.setStatus(request.getStatus());
+        account.setBalance(request.getBalance());
+        account.setUpdatedAt(LocalDateTime.now());
+
         return accountRepository.save(account);
     }
 }
