@@ -4,41 +4,28 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Document(collection = "accounts")
 public class Account {
 
     @Id
-    private String id;  // MongoDB's ObjectId
+    private String accountId;         // Unique identifier
 
-    private String accountId;
-    private String customerId;
-    private String type;           // e.g., "Savings", "Current"
-    private String status;         // e.g., "Active", "Frozen", etc.
-    private String linkedBranch;
-    private LocalDate closureDate; // nullable
-    private BigDecimal currentBalance;
+    private String customerId;        // Null for internal accounts
+    private String accountType;       // "SAVINGS", "CURRENT", etc.
+    private String status;            // "ACTIVE", "CLOSED"
+    private BigDecimal balance;       // Current balance
+    private LocalDateTime createdAt;  // Account created time
+    private LocalDateTime updatedAt;  // Last updated time
 
-    // Constructors
+    // Constructor
     public Account() {
-    }
-
-    public Account(String accountId, String customerId, String type, String status, String linkedBranch, LocalDate closureDate, BigDecimal currentBalance) {
-        this.accountId = accountId;
-        this.customerId = customerId;
-        this.type = type;
-        this.status = status;
-        this.linkedBranch = linkedBranch;
-        this.closureDate = closureDate;
-        this.currentBalance = currentBalance;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
     // Getters and Setters
-
-    public String getId() {
-        return id;
-    }
 
     public String getAccountId() {
         return accountId;
@@ -56,12 +43,12 @@ public class Account {
         this.customerId = customerId;
     }
 
-    public String getType() {
-        return type;
+    public String getAccountType() {
+        return accountType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
     }
 
     public String getStatus() {
@@ -72,27 +59,23 @@ public class Account {
         this.status = status;
     }
 
-    public String getLinkedBranch() {
-        return linkedBranch;
+    public BigDecimal getBalance() {
+        return balance;
     }
 
-    public void setLinkedBranch(String linkedBranch) {
-        this.linkedBranch = linkedBranch;
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
     }
 
-    public LocalDate getClosureDate() {
-        return closureDate;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setClosureDate(LocalDate closureDate) {
-        this.closureDate = closureDate;
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 
-    public BigDecimal getCurrentBalance() {
-        return currentBalance;
-    }
-
-    public void setCurrentBalance(BigDecimal currentBalance) {
-        this.currentBalance = currentBalance;
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }
