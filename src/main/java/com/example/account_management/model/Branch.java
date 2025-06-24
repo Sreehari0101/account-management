@@ -7,9 +7,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Branch {
 
     @Id
-    private String branchId;   // e.g., BR001
+    private String id;  // This is MongoDB’s auto-generated ObjectId
 
-    private String branchName; //
+    private String branchId;     // Your manual 4-digit ID (e.g., "0001")
+    private String branchName;
 
     // Constructors
     public Branch() {}
@@ -20,6 +21,14 @@ public class Branch {
     }
 
     // Getters and Setters
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getBranchId() {
         return branchId;
     }

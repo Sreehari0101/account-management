@@ -7,27 +7,36 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class AccountType {
 
     @Id
-    private String id;
+    private String Id;  // This is the default MongoDB _id (ObjectId)
 
-    private String type;
+    private String typeId;   // Your manual 3-digit ID, e.g., "001"
+    private String type;     // SAVINGS, CURRENT, LOAN
     private String description;
 
     // Constructors
     public AccountType() {}
 
-    public AccountType(String id, String type, String description) {
-        this.id = id;
+    public AccountType(String typeId, String type, String description) {
+        this.typeId = typeId;
         this.type = type;
         this.description = description;
     }
 
-    // Getters & Setters
+    // Getters and Setters
     public String getId() {
-        return id;
+        return Id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setId(String mongoId) {
+        this.Id = mongoId;
+    }
+
+    public String getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(String typeId) {
+        this.typeId = typeId;
     }
 
     public String getType() {
