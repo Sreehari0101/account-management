@@ -31,6 +31,7 @@ public class AccountController {
         return accountRepository.save(account);
     }
 
+<<<<<<< Updated upstream
 
 
     // ✅ GET API to retrieve all account data
@@ -41,4 +42,16 @@ public class AccountController {
 
 
 
+=======
+    @DeleteMapping("/{accountId}")
+    public String deleteAccount(@PathVariable String accountId) {
+        if (accountRepository.existsById(accountId)) {
+            accountRepository.deleteById(accountId);
+            return "Account with ID " + accountId + " deleted successfully.";
+        } else {
+            return "Account with ID " + accountId + " not found.";
+        }
+    }
+
+>>>>>>> Stashed changes
 }
