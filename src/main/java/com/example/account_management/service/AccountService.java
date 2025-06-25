@@ -1,14 +1,16 @@
 package com.example.account_management.service;
 
 import com.example.account_management.dto.AccountResponse;
-
+import com.example.account_management.dto.TransferRequest;
 import com.example.account_management.dto.AccountRequest;
 import com.example.account_management.model.Account;
 import com.example.account_management.model.Branch;
 import com.example.account_management.model.AccountType;
+import com.example.account_management.model.LedgerEntry;
 import com.example.account_management.repository.AccountRepository;
 import com.example.account_management.repository.BranchRepository;
 import com.example.account_management.repository.AccountTypeRepository;
+import com.example.account_management.repository.LedgerEntryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +30,9 @@ public class AccountService {
 
     @Autowired
     private AccountTypeRepository accountTypeRepository;
+
+    @Autowired
+    private LedgerEntryRepository ledgerEntryRepository;
 
     public Account createAccount(AccountRequest request) {
 
@@ -97,5 +102,52 @@ public class AccountService {
             return true;
         }
         return false;
+    }
+
+    public String transferFunds(TransferRequest request) {
+        Account fromAccount = accountRepository.findById(request.getFromAccountId()).orElse(null);
+        Account toAccount = accountRepository.findById(request.getToAccountId()).orElse(null);
+
+        if (fromAccount == null || toAccount == null) {
+            throw new IllegalArgumentException("Invalid source or target account ID.");
+        }
+
+        if (fromAccount.getBalance().compareTo(request.getAmount()) < 0) {
+            throw new IllegalArgumentException("Insufficient balance in source account.");
+        }
+
+        // Debit from source
+        fromAccount.setBalance(fromAccount.getBalance().subtract(request.getAmount()));
+        fromAccount.setUpdatedAt(Instant.now());
+
+        LedgerEntry debitEntry = new LedgerEntry(
+                fromAccount.getAccountId(),
+                "DEBIT",
+                request.getAmount(),
+                "Transfered to account: " + toAccount.getAccountId(),
+                "TXN-" + System.currentTimeMillis(),
+                "SUCCESS"
+        );
+        ledgerEntryRepository.save(debitEntry);
+
+        // Credit to target
+        toAccount.setBalance(toAccount.getBalance().add(request.getAmount()));
+        toAccount.setUpdatedAt(Instant.now());
+
+        LedgerEntry creditEntry = new LedgerEntry(
+                toAccount.getAccountId(),
+                "CREDIT",
+                request.getAmount(),
+                "Transfered from account: " + fromAccount.getAccountId(),
+                "TXN-" + System.currentTimeMillis(),
+                "SUCCESS"
+        );
+        ledgerEntryRepository.save(creditEntry);
+
+        // Save both accounts
+        accountRepository.save(fromAccount);
+        accountRepository.save(toAccount);
+
+        return "₹" + request.getAmount() + " transferred from " + fromAccount.getAccountId() + " to " + toAccount.getAccountId();
     }
 }

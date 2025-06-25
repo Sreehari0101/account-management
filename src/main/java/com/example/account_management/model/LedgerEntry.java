@@ -17,23 +17,26 @@ public class LedgerEntry {
     private BigDecimal amount;      // Transaction amount
     private String description;     // Purpose of the transaction
     private String referenceId;     // Optional reference number
-    private Instant timestamp; // Date and time of transaction
+    private String status;          // SUCCESS / FAILED etc.
+    private Instant timestamp;      // Date and time of transaction
 
-    // Constructors
+    // ✅ No-arg constructor for MongoDB
     public LedgerEntry() {
         this.timestamp = Instant.now();
     }
 
-    public LedgerEntry(String accountId, String type, BigDecimal amount, String description, String referenceId) {
+    // ✅ Full constructor
+    public LedgerEntry(String accountId, String type, BigDecimal amount, String description, String referenceId, String status) {
         this.accountId = accountId;
         this.type = type;
         this.amount = amount;
         this.description = description;
         this.referenceId = referenceId;
+        this.status = status;
         this.timestamp = Instant.now();
     }
 
-    // Getters and Setters
+    // ✅ Getters and Setters
 
     public String getId() {
         return id;
@@ -77,6 +80,14 @@ public class LedgerEntry {
 
     public void setReferenceId(String referenceId) {
         this.referenceId = referenceId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Instant getTimestamp() {

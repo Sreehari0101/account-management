@@ -2,6 +2,7 @@ package com.example.account_management.controller;
 
 import com.example.account_management.dto.AccountRequest;
 import com.example.account_management.dto.AccountResponse;
+import com.example.account_management.dto.TransferRequest;
 import com.example.account_management.model.Account;
 import com.example.account_management.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,4 +61,17 @@ public class AccountController {
                     .body("Account with ID " + accountId + " not found.");
         }
     }
+
+    @PostMapping("/transfer")
+    public ResponseEntity<?> transferFunds(@RequestBody TransferRequest request) {
+        try {
+            String result = accountService.transferFunds(request);
+            return ResponseEntity.ok(result);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Transfer failed due to an unexpected error.");
+        }
+    }
+
 }
