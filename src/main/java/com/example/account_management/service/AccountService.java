@@ -1,5 +1,7 @@
 package com.example.account_management.service;
 
+import com.example.account_management.dto.AccountResponse;
+
 import com.example.account_management.dto.AccountRequest;
 import com.example.account_management.model.Account;
 import com.example.account_management.model.Branch;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -52,9 +55,37 @@ public class AccountService {
         return accountRepository.save(account);
     }
 
-    public List<Account> getAllAccounts() {
-        return accountRepository.findAll();
+//    public List<Account> getAllAccounts() {
+//        return accountRepository.findAll();
+//    }
+
+    public List<AccountResponse> getAllAccountsWithTypeName() {
+        List<Account> accounts = accountRepository.findAll();
+        List<AccountResponse> responses = new ArrayList<>();
+
+        for (Account acc : accounts) {
+            // Lookup account type name using accountTypeId
+            AccountType type = accountTypeRepository.findByTypeId(acc.getAccountTypeId());
+            String typeName = (type != null) ? type.getType() : "UNKNOWN";
+
+            AccountResponse dto = new AccountResponse();
+            dto.setAccountId(acc.getAccountId());
+            dto.setCustomerId(acc.getCustomerId());
+            dto.setAccountTypeId(acc.getAccountTypeId());
+            dto.setAccountTypeName(typeName);
+            dto.setBranchId(acc.getBranchId());
+            dto.setStatus(acc.getStatus());
+            dto.setBalance(acc.getBalance());
+            dto.setCreatedAt(acc.getCreatedAt());
+            dto.setUpdatedAt(acc.getUpdatedAt());
+
+            responses.add(dto);
+        }
+
+        return responses;
     }
+
+
 
     public Account getAccountById(String accountId) {
         return accountRepository.findById(accountId).orElse(null);

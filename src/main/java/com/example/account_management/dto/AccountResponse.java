@@ -1,0 +1,44 @@
+package com.example.account_management.dto;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+public class AccountResponse {
+    private String accountId;
+    private String customerId;
+    private String accountTypeId;
+    private String accountTypeName;  // <-- Extra field
+    private String branchId;
+    private String status;
+    private BigDecimal balance;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    // Getters and Setters
+    public String getAccountId() { return accountId; }
+    public void setAccountId(String accountId) { this.accountId = accountId; }
+
+    public String getCustomerId() { return customerId; }
+    public void setCustomerId(String customerId) { this.customerId = customerId; }
+
+    public String getAccountTypeId() { return accountTypeId; }
+    public void setAccountTypeId(String accountTypeId) { this.accountTypeId = accountTypeId; }
+
+    public String getAccountTypeName() { return accountTypeName; }
+    public void setAccountTypeName(String accountTypeName) { this.accountTypeName = accountTypeName; }
+
+    public String getBranchId() { return branchId; }
+    public void setBranchId(String branchId) { this.branchId = branchId; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+
+    public BigDecimal getBalance() { return balance; }
+    public void setBalance(BigDecimal balance) { this.balance = balance; }
+
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+}
