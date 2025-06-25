@@ -15,8 +15,15 @@ public class AccountTypeController {
     @Autowired
     private AccountTypeRepository accountTypeRepository;
 
+    // ✅ GET: Retrieve all account types
     @GetMapping
     public List<AccountType> getAllAccountTypes() {
         return accountTypeRepository.findAll();
+    }
+
+    // ✅ POST: Create a new account type
+    @PostMapping
+    public AccountType createAccountType(@RequestBody AccountType accountType) {
+        return accountTypeRepository.save(accountType);
     }
 }
