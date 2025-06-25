@@ -7,9 +7,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class AccountType {
 
     @Id
-    private String Id;  // This is the default MongoDB _id (ObjectId)
+    private String Id;  // default MongoDB _id (ObjectId)
 
-    private String typeId;   // Your manual 3-digit ID, e.g., "001"
+    private String typeId;
     private String type;     // SAVINGS, CURRENT, LOAN
     private String description;
 
