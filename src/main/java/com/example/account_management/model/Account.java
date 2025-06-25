@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Document(collection = "accounts")
 public class Account {
@@ -17,13 +17,13 @@ public class Account {
     private String branchId;          // FK to Branch (branchId)
     private String status;            // ACTIVE / CLOSED
     private BigDecimal balance;       // Account balance
-    private LocalDateTime createdAt;  // Creation timestamp
-    private LocalDateTime updatedAt;  // Last updated timestamp
+    private Instant createdAt;         // Creation timestamp in UTC
+    private Instant updatedAt;    // Last updated timestamp
 
     // Constructor
     public Account() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+        this.createdAt = Instant.now();
+        this.updatedAt = Instant.now();
     }
 
     // Getters & Setters
@@ -75,15 +75,19 @@ public class Account {
         this.balance = balance;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Instant getCreatedAt() {
         return createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Instant getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

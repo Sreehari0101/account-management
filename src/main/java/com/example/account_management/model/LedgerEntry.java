@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Document(collection = "ledger_entries")
 public class LedgerEntry {
@@ -17,11 +17,11 @@ public class LedgerEntry {
     private BigDecimal amount;      // Transaction amount
     private String description;     // Purpose of the transaction
     private String referenceId;     // Optional reference number
-    private LocalDateTime timestamp; // Date and time of transaction
+    private Instant timestamp; // Date and time of transaction
 
     // Constructors
     public LedgerEntry() {
-        this.timestamp = LocalDateTime.now();
+        this.timestamp = Instant.now();
     }
 
     public LedgerEntry(String accountId, String type, BigDecimal amount, String description, String referenceId) {
@@ -30,7 +30,7 @@ public class LedgerEntry {
         this.amount = amount;
         this.description = description;
         this.referenceId = referenceId;
-        this.timestamp = LocalDateTime.now();
+        this.timestamp = Instant.now();
     }
 
     // Getters and Setters
@@ -79,11 +79,11 @@ public class LedgerEntry {
         this.referenceId = referenceId;
     }
 
-    public LocalDateTime getTimestamp() {
+    public Instant getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
+    public void setTimestamp(Instant timestamp) {
         this.timestamp = timestamp;
     }
 }

@@ -10,6 +10,7 @@ import com.example.account_management.repository.AccountTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class AccountService {
         account.setAccountTypeId(request.getAccountTypeId());
         account.setStatus(request.getStatus());
         account.setBalance(request.getBalance());
-        account.setUpdatedAt(LocalDateTime.now());
+        account.setUpdatedAt(Instant.now());
 
         return accountRepository.save(account);
     }
