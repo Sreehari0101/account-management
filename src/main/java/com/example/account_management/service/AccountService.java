@@ -76,8 +76,7 @@ public class AccountService {
             dto.setBranchId(acc.getBranchId());
             dto.setStatus(acc.getStatus());
             dto.setBalance(acc.getBalance());
-            dto.setCreatedAt(acc.getCreatedAt());
-            dto.setUpdatedAt(acc.getUpdatedAt());
+
 
             responses.add(dto);
         }

@@ -11,8 +11,7 @@ public class AccountResponse {
     private String branchId;
     private String status;
     private BigDecimal balance;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+
 
     // Getters and Setters
     public String getAccountId() { return accountId; }
@@ -36,9 +35,4 @@ public class AccountResponse {
     public BigDecimal getBalance() { return balance; }
     public void setBalance(BigDecimal balance) { this.balance = balance; }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
-
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }
