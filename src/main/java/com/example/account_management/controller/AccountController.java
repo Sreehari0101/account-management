@@ -19,10 +19,15 @@ public class AccountController {
     private AccountService accountService;
 
     @PostMapping
-    public ResponseEntity<Account> createAccount(@RequestBody AccountRequest request) {
-        Account created = accountService.createAccount(request);
-        return new ResponseEntity<>(created, HttpStatus.CREATED);
+    public ResponseEntity<?> createAccount(@RequestBody AccountRequest request) {
+        try {
+            Account created = accountService.createAccount(request);
+            return new ResponseEntity<>(created, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
+
 
     @GetMapping
     public ResponseEntity<List<Account>> getAllAccounts() {

@@ -10,14 +10,15 @@ import java.time.LocalDateTime;
 public class Account {
 
     @Id
-    private String accountId;         // Unique identifier
+    private String accountId;         // MongoDB's _id
 
-    private String customerId;        // Null for internal accounts
-    private String accountType;       // "SAVINGS", "CURRENT", etc.
-    private String status;            // "ACTIVE", "CLOSED"
-    private BigDecimal balance;       // Current balance
-    private LocalDateTime createdAt;  // Account created time
-    private LocalDateTime updatedAt;  // Last updated time
+    private String customerId;        // For customer linkage
+    private String accountTypeId;     // FK to AccountType (typeId)
+    private String branchId;          // FK to Branch (branchId)
+    private String status;            // ACTIVE / CLOSED
+    private BigDecimal balance;       // Account balance
+    private LocalDateTime createdAt;  // Creation timestamp
+    private LocalDateTime updatedAt;  // Last updated timestamp
 
     // Constructor
     public Account() {
@@ -25,8 +26,7 @@ public class Account {
         this.updatedAt = LocalDateTime.now();
     }
 
-    // Getters and Setters
-
+    // Getters & Setters
     public String getAccountId() {
         return accountId;
     }
@@ -43,12 +43,20 @@ public class Account {
         this.customerId = customerId;
     }
 
-    public String getAccountType() {
-        return accountType;
+    public String getAccountTypeId() {
+        return accountTypeId;
     }
 
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
+    public void setAccountTypeId(String accountTypeId) {
+        this.accountTypeId = accountTypeId;
+    }
+
+    public String getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(String branchId) {
+        this.branchId = branchId;
     }
 
     public String getStatus() {
