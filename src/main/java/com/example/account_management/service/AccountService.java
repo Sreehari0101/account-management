@@ -1,7 +1,6 @@
 package com.example.account_management.service;
 
 import com.example.account_management.dto.AccountResponse;
-
 import com.example.account_management.dto.AccountRequest;
 import com.example.account_management.model.Account;
 import com.example.account_management.model.Branch;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,20 +28,16 @@ public class AccountService {
     private AccountTypeRepository accountTypeRepository;
 
     public Account createAccount(AccountRequest request) {
-
-        // 🔍 Check if Branch ID exists
         Branch branch = branchRepository.findByBranchId(request.getBranchId());
         if (branch == null) {
             throw new IllegalArgumentException("Invalid branch ID: " + request.getBranchId());
         }
 
-        // 🔍 Check if Account Type ID exists
         AccountType accountType = accountTypeRepository.findByTypeId(request.getAccountTypeId());
         if (accountType == null) {
             throw new IllegalArgumentException("Invalid account type ID: " + request.getAccountTypeId());
         }
 
-        // ✅ Proceed to create account
         Account account = new Account();
         account.setAccountId(request.getAccountId());
         account.setCustomerId(request.getCustomerId());
@@ -56,18 +50,16 @@ public class AccountService {
         return accountRepository.save(account);
     }
 
-//    public List<Account> getAllAccounts() {
-//        return accountRepository.findAll();
-//    }
-
     public List<AccountResponse> getAllAccountsWithTypeName() {
         List<Account> accounts = accountRepository.findAll();
         List<AccountResponse> responses = new ArrayList<>();
 
         for (Account acc : accounts) {
-            // Lookup account type name using accountTypeId
             AccountType type = accountTypeRepository.findByTypeId(acc.getAccountTypeId());
             String typeName = (type != null) ? type.getType() : "UNKNOWN";
+
+            Branch branch = branchRepository.findByBranchId(acc.getBranchId());
+            String branchName = (branch != null) ? branch.getBranchName() : "UNKNOWN";
 
             AccountResponse dto = new AccountResponse();
             dto.setAccountId(acc.getAccountId());
@@ -75,9 +67,9 @@ public class AccountService {
             dto.setAccountTypeId(acc.getAccountTypeId());
             dto.setAccountTypeName(typeName);
             dto.setBranchId(acc.getBranchId());
+            dto.setBranchName(branchName);
             dto.setStatus(acc.getStatus());
             dto.setBalance(acc.getBalance());
-
 
             responses.add(dto);
         }
@@ -85,10 +77,28 @@ public class AccountService {
         return responses;
     }
 
+    // ✅ New method to return a single account with type and branch names
+    public AccountResponse getAccountDetailsById(String accountId) {
+        Account acc = accountRepository.findById(accountId).orElse(null);
+        if (acc == null) return null;
 
+        AccountType type = accountTypeRepository.findByTypeId(acc.getAccountTypeId());
+        String typeName = (type != null) ? type.getType() : "UNKNOWN";
 
-    public Account getAccountById(String accountId) {
-        return accountRepository.findById(accountId).orElse(null);
+        Branch branch = branchRepository.findByBranchId(acc.getBranchId());
+        String branchName = (branch != null) ? branch.getBranchName() : "UNKNOWN";
+
+        AccountResponse dto = new AccountResponse();
+        dto.setAccountId(acc.getAccountId());
+        dto.setCustomerId(acc.getCustomerId());
+        dto.setAccountTypeId(acc.getAccountTypeId());
+        dto.setAccountTypeName(typeName);
+        dto.setBranchId(acc.getBranchId());
+        dto.setBranchName(branchName);
+        dto.setStatus(acc.getStatus());
+        dto.setBalance(acc.getBalance());
+
+        return dto;
     }
 
     public boolean deleteAccount(String accountId) {

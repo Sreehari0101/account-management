@@ -42,7 +42,9 @@ public class AccountController {
 
     @GetMapping("/{accountId}")
     public ResponseEntity<?> getAccountById(@PathVariable String accountId) {
-        Account account = accountService.getAccountById(accountId);
+//        Account account = accountService.getAccountById(accountId);
+        AccountResponse account = accountService.getAccountDetailsById(accountId);
+
         if (account == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Account with ID " + accountId + " not found.");

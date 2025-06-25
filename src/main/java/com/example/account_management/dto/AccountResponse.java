@@ -9,6 +9,7 @@ public class AccountResponse {
     private String accountTypeId;
     private String accountTypeName;  // <-- Extra field
     private String branchId;
+    private String branchName;
     private String status;
     private BigDecimal balance;
 
@@ -28,6 +29,9 @@ public class AccountResponse {
 
     public String getBranchId() { return branchId; }
     public void setBranchId(String branchId) { this.branchId = branchId; }
+
+    public String getBranchName() { return branchName; }
+    public void setBranchName(String branchName) { this.branchName = branchName; }
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
