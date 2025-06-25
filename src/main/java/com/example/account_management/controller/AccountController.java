@@ -1,6 +1,7 @@
 package com.example.account_management.controller;
 
 import com.example.account_management.dto.AccountRequest;
+import com.example.account_management.dto.AccountResponse;
 import com.example.account_management.model.Account;
 import com.example.account_management.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +30,14 @@ public class AccountController {
     }
 
 
+//    @GetMapping
+//    public ResponseEntity<List<Account>> getAllAccounts() {
+//        return ResponseEntity.ok(accountService.getAllAccounts());
+//    }
+
     @GetMapping
-    public ResponseEntity<List<Account>> getAllAccounts() {
-        return ResponseEntity.ok(accountService.getAllAccounts());
+    public List<AccountResponse> getAllAccounts() {
+        return accountService.getAllAccountsWithTypeName();
     }
 
     @GetMapping("/{accountId}")
