@@ -161,4 +161,14 @@ public class AccountService {
 
         return "₹" + request.getAmount() + " transferred from " + fromAccount.getAccountId() + " to " + toAccount.getAccountId();
     }
+
+    public List<String> getAccountIdsByCustomerId(String customerId) {
+        List<Account> accounts = accountRepository.findByCustomerId(customerId);
+
+        return accounts.stream()
+                .map(Account::getAccountId)
+                .toList();
+    }
+
+
 }
