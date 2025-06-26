@@ -66,6 +66,7 @@ public class AccountController {
 
     @PostMapping("/transfer")
     public ResponseEntity<?> transferFunds(@RequestBody TransferRequest request) {
+        System.out.println(request);
         try {
             String result = accountService.transferFunds(request);
             return ResponseEntity.ok(result);
@@ -75,5 +76,18 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Transfer failed due to an unexpected error.");
         }
     }
+
+    @GetMapping("/customer/{customerId}")
+    public ResponseEntity<?> getAccountIdsByCustomerId(@PathVariable String customerId) {
+        List<String> accountIds = accountService.getAccountIdsByCustomerId(customerId);
+
+        if (accountIds.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No accounts found for customer ID: " + customerId);
+        }
+        return ResponseEntity.ok(accountIds);
+    }
+
+
 
 }

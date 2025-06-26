@@ -1,7 +1,9 @@
 package com.example.account_management.dto;
 
-import java.math.BigDecimal;
+import lombok.Data;
 
+import java.math.BigDecimal;
+@Data
 public class TransferRequest {
     private String fromAccountId;   // Debit Account
     private String toAccountId;     // Credit Account
@@ -30,6 +32,15 @@ public class TransferRequest {
 
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    @Override
+    public String toString() {
+        return "TransferRequest{" +
+                "fromAccountId='" + fromAccountId + '\'' +
+                ", toAccountId='" + toAccountId + '\'' +
+                ", amount=" + amount +
+                '}';
     }
 }
 
