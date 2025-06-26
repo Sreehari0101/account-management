@@ -14,6 +14,7 @@ import com.example.account_management.repository.LedgerEntryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,13 +45,17 @@ public class AccountService {
             throw new IllegalArgumentException("Invalid account type ID: " + request.getAccountTypeId());
         }
 
+        // Generate accountId using format: branchId-customerId-accountTypeId
+        String generatedAccountId = request.getBranchId() + "-" + request.getCustomerId() + "-" + request.getAccountTypeId();
+
         Account account = new Account();
-        account.setAccountId(request.getAccountId());
+
+        account.setAccountId(generatedAccountId);
         account.setCustomerId(request.getCustomerId());
         account.setBranchId(request.getBranchId());
         account.setAccountTypeId(request.getAccountTypeId());
-        account.setStatus(request.getStatus());
-        account.setBalance(request.getBalance());
+        account.setStatus("ACTIVE");
+        account.setBalance(BigDecimal.ZERO);
         account.setUpdatedAt(Instant.now());
 
         return accountRepository.save(account);
