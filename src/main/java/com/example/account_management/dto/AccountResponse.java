@@ -6,9 +6,7 @@ import java.time.LocalDateTime;
 public class AccountResponse {
     private String accountId;
     private String customerId;
-    private String accountTypeId;
-    private String accountTypeName;  // <-- Extra field
-    private String branchId;
+    private String accountTypeName;
     private String branchName;
     private String status;
     private BigDecimal balance;
@@ -21,14 +19,8 @@ public class AccountResponse {
     public String getCustomerId() { return customerId; }
     public void setCustomerId(String customerId) { this.customerId = customerId; }
 
-    public String getAccountTypeId() { return accountTypeId; }
-    public void setAccountTypeId(String accountTypeId) { this.accountTypeId = accountTypeId; }
-
     public String getAccountTypeName() { return accountTypeName; }
     public void setAccountTypeName(String accountTypeName) { this.accountTypeName = accountTypeName; }
-
-    public String getBranchId() { return branchId; }
-    public void setBranchId(String branchId) { this.branchId = branchId; }
 
     public String getBranchName() { return branchName; }
     public void setBranchName(String branchName) { this.branchName = branchName; }

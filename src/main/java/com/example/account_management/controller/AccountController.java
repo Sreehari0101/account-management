@@ -27,23 +27,23 @@ public class AccountController {
             return new ResponseEntity<>(created, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    }
     }
 
 
-//    @GetMapping
-//    public ResponseEntity<List<Account>> getAllAccounts() {
-//        return ResponseEntity.ok(accountService.getAllAccounts());
-//    }
-
     @GetMapping
-    public List<AccountResponse> getAllAccounts() {
-        return accountService.getAllAccountsWithTypeName();
+    public ResponseEntity<?> getAllAccounts() {
+        List<AccountResponse> accounts = accountService.getAllAccountsWithTypeName();
+
+        if(accounts.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No accounts found.");
+        }
+
+        return ResponseEntity.ok(accounts);
     }
 
     @GetMapping("/{accountId}")
     public ResponseEntity<?> getAccountById(@PathVariable String accountId) {
-//        Account account = accountService.getAccountById(accountId);
         AccountResponse account = accountService.getAccountDetailsById(accountId);
 
         if (account == null) {
